@@ -48,53 +48,7 @@ namespace SimpleTempTray
         /// </summary>
         public DirectoryInfo GetNewTempDirectory()
         {
-            return GetNewTempDirectory(null);
-        }
-
-        /// <summary>
-        /// Creates a new temporary directory with a GIVEN name in the temporary path of Windows.
-        /// </summary>
-        /// <param name="dirname">The name that should be used for the new directory. If this is null or empty a random name will be generated.</param>
-        public DirectoryInfo GetNewTempDirectory(string dirname)
-        {
-            string temp_dir;
-            if (string.IsNullOrEmpty(dirname))
-            {
-                do
-                {
-                    temp_dir = MainForm.GetRandomDirectory();
-                }
-                while (Directory.Exists(temp_dir));
-            }
-            else
-            {
-                temp_dir = Path.Combine(Path.GetTempPath(), dirname);
-            }
-
-            if (Directory.Exists(temp_dir))
-            {
-                return new DirectoryInfo(temp_dir);
-            }
-            else
-            {
-                return Directory.CreateDirectory(temp_dir);
-            }
-        }
-
-        /// <summary>
-        /// Gets the path for a new random directory in the temporary path of Windows.
-        /// </summary>
-        private static string GetRandomDirectory(){
-            return Path.Combine(Path.GetTempPath(), Path.GetRandomFileName());
-        }
-
-
-        /// <summary>
-        /// Opens a given directory in Windows Explorer
-        /// </summary>
-        public static Process OpenDirectoryInExplorer(DirectoryInfo dinfo)
-        {
-            return Process.Start(dinfo.FullName);
+            return Utility.GetNewTempDirectory(null);
         }
 
 
@@ -112,11 +66,12 @@ namespace SimpleTempTray
         /// <param name="dirname">The name that should be used for the new directory. If this is null or empty a random name will be generated.</param>
         private void OpenNewTempDir(string dirname)
         {
-            DirectoryInfo temp_dir = this.GetNewTempDirectory(dirname);
+            DirectoryInfo temp_dir = Utility.GetNewTempDirectory(dirname);
             this._listboxDirectories.Items.Add(temp_dir);
             this._tsmDirectories.DropDownItems.Add(new TempDirectoryToolStripMenuItem(temp_dir));
             this._tsmDirectories.Enabled = true;
-            _explorers.Add(OpenDirectoryInExplorer(temp_dir));
+            _listboxDirectories.SelectedIndex = _listboxDirectories.Items.Count - 1;
+            _explorers.Add(Utility.OpenDirectoryInExplorer(temp_dir));
         }
 
         /// <summary>
@@ -129,34 +84,13 @@ namespace SimpleTempTray
                 var dir = _listboxDirectories.Items[i] as DirectoryInfo ;
                 if (dir != null)
                 {
-                    if (!DeleteDirectory(dir))
+                    if (Utility.DeleteDirectory(dir) == Utility.DeletionResult.Retry)
                     {
                         i--;
                     }
                 }
             }
             RemoveAllDirectories();
-        }
-
-        private static bool DeleteDirectory(DirectoryInfo dir)
-        {
-            try
-            {
-                if (Directory.Exists(dir.FullName))
-                {
-                    Directory.Delete(dir.FullName, true);
-                }
-            }
-            catch (IOException ioe)
-            {
-                string msg = string.Format("The Folder {0} couldn't be deleted. One of the containing files may be opened in another program.", dir.FullName);
-                var dres = MessageBox.Show(msg, "", MessageBoxButtons.RetryCancel);
-                if (dres == DialogResult.Retry)
-                {
-                    return false;
-                }
-            }
-            return true;
         }
 
         /// <summary>
@@ -223,7 +157,7 @@ namespace SimpleTempTray
             var dinfo = _listboxDirectories.SelectedItem as DirectoryInfo;
             if (dinfo != null)
             {
-                OpenDirectoryInExplorer(dinfo);
+                Utility.OpenDirectoryInExplorer(dinfo);
             }
         }
 
@@ -288,7 +222,7 @@ namespace SimpleTempTray
             var dres = MessageBox.Show("Delete directory from your hard drive?", "", MessageBoxButtons.YesNo,MessageBoxIcon.Question);
             if (dres == DialogResult.Yes)
             {
-                DeleteDirectory(selected_dir);
+                while (Utility.DeleteDirectory(selected_dir) == Utility.DeletionResult.Retry) ;
             }
             RemoveSelectedDir();
             EnableDisableButtons();

@@ -19,7 +19,7 @@ namespace SimpleTempTray
 
         private void GotClicked(object sender, EventArgs e)
         {
-            MainForm.OpenDirectoryInExplorer(this.Directory);
+            Utility.OpenDirectoryInExplorer(this.Directory);
         }
 
         public DirectoryInfo Directory { get; set; }
