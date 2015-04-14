@@ -33,7 +33,7 @@ namespace SimpleTempTray
             /*Bottom*/
             _tsmBottomNew.Image = Z.IconLibrary.FarmFresh.Icon.Add.GetImage32();
             _tsmBottomRemoveSelected.Image = Z.IconLibrary.FarmFresh.Icon.Delete.GetImage32();
-            _tsmBottomDeleteAll.Image = Z.IconLibrary.FarmFresh.Icon.DeletePackage.GetImage32();
+            _tsmBottomRemoveAll.Image = Z.IconLibrary.FarmFresh.Icon.DeletePackage.GetImage32();
             _tsmBottomSettings.Image = Z.IconLibrary.FarmFresh.Icon.Cog.GetImage32();
         }
 
@@ -187,6 +187,20 @@ namespace SimpleTempTray
             _tsmDirectories.DropDownItems.Clear();
             _tsmDirectories.Enabled = false;
         }
+
+        private void EnableDisableButtons()
+        {
+            if (_listboxDirectories.Items.Count == 0)
+            {
+                _tsmBottomRemoveAll.Enabled = false;
+                _tsmBottomRemoveSelected.Enabled = false;
+            }
+            else
+            {
+                _tsmBottomRemoveAll.Enabled = true;
+                _tsmBottomRemoveSelected.Enabled = true;
+            }
+        }
         #endregion
 
 
@@ -194,6 +208,7 @@ namespace SimpleTempTray
         private void _tsmNew_Click(object sender, EventArgs e)
         {
             OpenNewTempDir();
+            EnableDisableButtons();
         }
 
         private void _listboxDirectories_DoubleClick(object sender, EventArgs e)
@@ -241,11 +256,6 @@ namespace SimpleTempTray
             this.Show();
         }
 
-        private void tsmBottomNew_Click(object sender, EventArgs e)
-        {
-            OpenNewTempDir();
-        }
-
         private void _tsmNewDialog_Click(object sender, EventArgs e)
         {
             var newForm = new NewDirectoryForm();
@@ -268,11 +278,13 @@ namespace SimpleTempTray
         private void _tsmBottomRemoveSelected_Click(object sender, EventArgs e)
         {
             RemoveSelectedDir();
+            EnableDisableButtons();
         }
 
         private void _tsmBottomDeleteAll_Click(object sender, EventArgs e)
         {
             RemoveAllDirectories();
+            EnableDisableButtons();
         }
 
         private void _tsmBottomSettings_Click(object sender, EventArgs e)

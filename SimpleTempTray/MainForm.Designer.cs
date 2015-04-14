@@ -44,7 +44,7 @@
             this._msBottom = new System.Windows.Forms.MenuStrip();
             this._tsmBottomNew = new System.Windows.Forms.ToolStripMenuItem();
             this._tsmBottomRemoveSelected = new System.Windows.Forms.ToolStripMenuItem();
-            this._tsmBottomDeleteAll = new System.Windows.Forms.ToolStripMenuItem();
+            this._tsmBottomRemoveAll = new System.Windows.Forms.ToolStripMenuItem();
             this._tsmBottomSettings = new System.Windows.Forms.ToolStripMenuItem();
             this._cmsTray.SuspendLayout();
             this._msBottom.SuspendLayout();
@@ -140,7 +140,7 @@
             this._msBottom.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this._tsmBottomNew,
             this._tsmBottomRemoveSelected,
-            this._tsmBottomDeleteAll,
+            this._tsmBottomRemoveAll,
             this._tsmBottomSettings});
             this._msBottom.Location = new System.Drawing.Point(0, 237);
             this._msBottom.Name = "_msBottom";
@@ -154,23 +154,25 @@
             this._tsmBottomNew.Name = "_tsmBottomNew";
             this._tsmBottomNew.Size = new System.Drawing.Size(59, 20);
             this._tsmBottomNew.Text = "New";
-            this._tsmBottomNew.Click += new System.EventHandler(this.tsmBottomNew_Click);
+            this._tsmBottomNew.Click += new System.EventHandler(this._tsmNew_Click);
             // 
             // _tsmBottomRemoveSelected
             // 
+            this._tsmBottomRemoveSelected.Enabled = false;
             this._tsmBottomRemoveSelected.Image = global::SimpleTempTray.Properties.Resources.default_icon_image;
             this._tsmBottomRemoveSelected.Name = "_tsmBottomRemoveSelected";
             this._tsmBottomRemoveSelected.Size = new System.Drawing.Size(125, 20);
             this._tsmBottomRemoveSelected.Text = "Remove Selected";
             this._tsmBottomRemoveSelected.Click += new System.EventHandler(this._tsmBottomRemoveSelected_Click);
             // 
-            // _tsmBottomDeleteAll
+            // _tsmBottomRemoveAll
             // 
-            this._tsmBottomDeleteAll.Image = global::SimpleTempTray.Properties.Resources.default_icon_image;
-            this._tsmBottomDeleteAll.Name = "_tsmBottomDeleteAll";
-            this._tsmBottomDeleteAll.Size = new System.Drawing.Size(95, 20);
-            this._tsmBottomDeleteAll.Text = "Remove All";
-            this._tsmBottomDeleteAll.Click += new System.EventHandler(this._tsmBottomDeleteAll_Click);
+            this._tsmBottomRemoveAll.Enabled = false;
+            this._tsmBottomRemoveAll.Image = global::SimpleTempTray.Properties.Resources.default_icon_image;
+            this._tsmBottomRemoveAll.Name = "_tsmBottomRemoveAll";
+            this._tsmBottomRemoveAll.Size = new System.Drawing.Size(95, 20);
+            this._tsmBottomRemoveAll.Text = "Remove All";
+            this._tsmBottomRemoveAll.Click += new System.EventHandler(this._tsmBottomDeleteAll_Click);
             // 
             // _tsmBottomSettings
             // 
@@ -216,7 +218,7 @@
         private System.Windows.Forms.ListBox _listboxDirectories;
         private System.Windows.Forms.MenuStrip _msBottom;
         private System.Windows.Forms.ToolStripMenuItem _tsmBottomRemoveSelected;
-        private System.Windows.Forms.ToolStripMenuItem _tsmBottomDeleteAll;
+        private System.Windows.Forms.ToolStripMenuItem _tsmBottomRemoveAll;
         private System.Windows.Forms.ToolStripMenuItem _tsmBottomNew;
         private System.Windows.Forms.ToolStripMenuItem _tsmBottomSettings;
         private System.Windows.Forms.ToolStripMenuItem _tsmNewDialog;
