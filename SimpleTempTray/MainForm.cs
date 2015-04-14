@@ -129,27 +129,34 @@ namespace SimpleTempTray
                 var dir = _listboxDirectories.Items[i] as DirectoryInfo ;
                 if (dir != null)
                 {
-                    try
+                    if (!DeleteDirectory(dir))
                     {
-                        if (Directory.Exists(dir.FullName))
-                        {
-                            Directory.Delete(dir.FullName, true);
-                        }
-                    }
-                    catch (IOException ioe)
-                    {
-                        string msg = string.Format("The Folder {0} couldn't be deleted. One of the containing files may be opened in another program.",dir.FullName);
-                        var dres = MessageBox.Show(msg, "", MessageBoxButtons.RetryCancel);
-                        if (dres == DialogResult.Retry)
-                        {
-                            i--;
-                        }
-                        continue;
+                        i--;
                     }
                 }
             }
-
             RemoveAllDirectories();
+        }
+
+        private static bool DeleteDirectory(DirectoryInfo dir)
+        {
+            try
+            {
+                if (Directory.Exists(dir.FullName))
+                {
+                    Directory.Delete(dir.FullName, true);
+                }
+            }
+            catch (IOException ioe)
+            {
+                string msg = string.Format("The Folder {0} couldn't be deleted. One of the containing files may be opened in another program.", dir.FullName);
+                var dres = MessageBox.Show(msg, "", MessageBoxButtons.RetryCancel);
+                if (dres == DialogResult.Retry)
+                {
+                    return false;
+                }
+            }
+            return true;
         }
 
         /// <summary>
@@ -246,7 +253,6 @@ namespace SimpleTempTray
                     DeleteAllDirectories();
                 }
             }
-            
 
             this.Close();
         }
@@ -277,12 +283,24 @@ namespace SimpleTempTray
 
         private void _tsmBottomRemoveSelected_Click(object sender, EventArgs e)
         {
+            var selected_dir = _listboxDirectories.SelectedItem as DirectoryInfo;
+            if (selected_dir == null) return;
+            var dres = MessageBox.Show("Delete directory from your hard drive?", "", MessageBoxButtons.YesNo,MessageBoxIcon.Question);
+            if (dres == DialogResult.Yes)
+            {
+                DeleteDirectory(selected_dir);
+            }
             RemoveSelectedDir();
             EnableDisableButtons();
         }
 
         private void _tsmBottomDeleteAll_Click(object sender, EventArgs e)
         {
+            var dres = MessageBox.Show("Delete all directories from your hard drive?", "", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+            if (dres == DialogResult.Yes)
+            {
+                DeleteAllDirectories();
+            }
             RemoveAllDirectories();
             EnableDisableButtons();
         }
