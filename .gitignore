@@ -198,3 +198,4 @@ FakesAssemblies/
 #MSBuild
 .build/
 Build.proj
+SimpleTempTray/Properties/AssemblyInfo.cs
