@@ -31,6 +31,7 @@
             this._chkMinimizeOnStart = new System.Windows.Forms.CheckBox();
             this._btnSave = new System.Windows.Forms.Button();
             this._btnCancel = new System.Windows.Forms.Button();
+            this._chkRunAtWindowsStart = new System.Windows.Forms.CheckBox();
             this.SuspendLayout();
             // 
             // _chkMinimizeOnStart
@@ -45,7 +46,8 @@
             // 
             // _btnSave
             // 
-            this._btnSave.Location = new System.Drawing.Point(12, 35);
+            this._btnSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this._btnSave.Location = new System.Drawing.Point(12, 60);
             this._btnSave.Name = "_btnSave";
             this._btnSave.Size = new System.Drawing.Size(75, 23);
             this._btnSave.TabIndex = 1;
@@ -55,13 +57,24 @@
             // 
             // _btnCancel
             // 
+            this._btnCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this._btnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this._btnCancel.Location = new System.Drawing.Point(190, 35);
+            this._btnCancel.Location = new System.Drawing.Point(190, 60);
             this._btnCancel.Name = "_btnCancel";
             this._btnCancel.Size = new System.Drawing.Size(75, 23);
             this._btnCancel.TabIndex = 2;
             this._btnCancel.Text = "Cancel";
             this._btnCancel.UseVisualStyleBackColor = true;
+            // 
+            // _chkRunAtWindowsStart
+            // 
+            this._chkRunAtWindowsStart.AutoSize = true;
+            this._chkRunAtWindowsStart.Location = new System.Drawing.Point(12, 35);
+            this._chkRunAtWindowsStart.Name = "_chkRunAtWindowsStart";
+            this._chkRunAtWindowsStart.Size = new System.Drawing.Size(232, 17);
+            this._chkRunAtWindowsStart.TabIndex = 3;
+            this._chkRunAtWindowsStart.Text = "Run SimpleTempTray when Windows starts";
+            this._chkRunAtWindowsStart.UseVisualStyleBackColor = true;
             // 
             // SettingsForm
             // 
@@ -69,7 +82,8 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this._btnCancel;
-            this.ClientSize = new System.Drawing.Size(277, 64);
+            this.ClientSize = new System.Drawing.Size(277, 89);
+            this.Controls.Add(this._chkRunAtWindowsStart);
             this.Controls.Add(this._btnCancel);
             this.Controls.Add(this._btnSave);
             this.Controls.Add(this._chkMinimizeOnStart);
@@ -85,5 +99,6 @@
         private System.Windows.Forms.CheckBox _chkMinimizeOnStart;
         private System.Windows.Forms.Button _btnSave;
         private System.Windows.Forms.Button _btnCancel;
+        private System.Windows.Forms.CheckBox _chkRunAtWindowsStart;
     }
 }

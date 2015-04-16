@@ -1,4 +1,5 @@
-﻿using System;
+﻿using IWshRuntimeLibrary;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
@@ -101,6 +102,29 @@ namespace SimpleTempTray
                 }
             }
             return DeletionResult.Deleted;
+        }
+
+        public static string GetAutostartShortcutPath()
+        {
+            return Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Startup), "SimpleTempTray.lnk");
+        }
+
+        public static void CreateAutostartShortcut()
+        {
+            var shell = new WshShell();
+            var shortcut_path = Utility.GetAutostartShortcutPath();
+            WshShortcut shortcut = shell.CreateShortcut(shortcut_path);
+            shortcut.TargetPath = Application.ExecutablePath;
+            shortcut.Save();
+        }
+
+        public static void DeleteAutostartShortcut()
+        {
+            var shortcut_path = Utility.GetAutostartShortcutPath();
+            if (System.IO.File.Exists(shortcut_path))
+            {
+                System.IO.File.Delete(shortcut_path);
+            }
         }
 
         public enum DeletionResult
