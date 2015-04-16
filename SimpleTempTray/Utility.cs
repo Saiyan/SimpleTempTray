@@ -9,7 +9,7 @@ using System.Windows.Forms;
 
 namespace SimpleTempTray
 {
-    class Utility
+    static class Utility
     {
 
         /// <summary>
